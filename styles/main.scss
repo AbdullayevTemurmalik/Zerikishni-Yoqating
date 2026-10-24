@@ -1,0 +1,50 @@
+// ==========================================
+// BMW M-Series 3D Simulator Stylesheet (SCSS)
+// ==========================================
+
+$m-blue: #0066b1;
+$m-indigo: #1d1d5b;
+$m-red: #e41e26;
+$neon-cyan: #38bdf8;
+$neon-amber: #fbbf24;
+$glass-bg: rgba(10, 15, 28, 0.86);
+$glass-strong: rgba(7, 11, 22, 0.94);
+
+@mixin glass-morphism($blur: 14px, $border-color: rgba(255, 255, 255, 0.14)) {
+  background: $glass-bg;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid $border-color;
+}
+
+.m-power-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+
+  .stripe-bar {
+    height: 0.75rem;
+    width: 1.5rem;
+    border-radius: 2px;
+    background: linear-gradient(90deg, $m-blue 0%, $m-blue 33.3%, $m-indigo 33.3%, $m-indigo 66.6%, $m-red 66.6%, $m-red 100%);
+  }
+}
+
+.digital-cockpit {
+  @include glass-morphism(18px, rgba($neon-cyan, 0.35));
+  border-radius: 1.25rem;
+  box-shadow: 0 0 25px rgba($neon-cyan, 0.2);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.nitro-active {
+    border-color: $neon-cyan;
+    box-shadow: 0 0 35px rgba($neon-cyan, 0.65), inset 0 0 15px rgba($neon-cyan, 0.25);
+  }
+
+  .speedometer-val {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    color: #ffffff;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "bmw-m-series-3d-simulator",
+  "version": "2.5.0",
+  "private": true,
+  "description": "BMW M-Series 3D Ultimate Driving & Racing Simulator Pro",
+  "keywords": ["bmw", "threejs", "webgl", "racing-game", "simulator", "3d", "web-audio"],
+  "author": "Abdullayev Temurmalik",
+  "license": "MIT",
+  "scripts": {
+    "build": "python3 scripts/verify_build.py",
+    "test": "python3 scripts/benchmark.py",
+    "start": "npx serve ."
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

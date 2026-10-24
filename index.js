@@ -43,7 +43,7 @@
       baseAccel: 2.8,
       baseHandling: 92,
       baseNitro: 96,
-      defaultPaintIndex: 4,
+      defaultPaintIndex: 1,
       dimensions: { width: 2.10, height: 1.42, length: 4.96 },
       grilleStyle: 'classic_cs',
       spoilerDefault: 1
@@ -59,7 +59,7 @@
       baseAccel: 2.9,
       baseHandling: 99,
       baseNitro: 100,
-      defaultPaintIndex: 5,
+      defaultPaintIndex: 9,
       dimensions: { width: 2.06, height: 1.36, length: 4.68 },
       grilleStyle: 'e46_gtr',
       spoilerDefault: 2
@@ -75,7 +75,7 @@
       baseAccel: 2.5,
       baseHandling: 94,
       baseNitro: 98,
-      defaultPaintIndex: 1,
+      defaultPaintIndex: 2,
       dimensions: { width: 2.14, height: 1.34, length: 4.90 },
       grilleStyle: 'wide_m8',
       spoilerDefault: 2
@@ -83,14 +83,16 @@
   ];
 
   const PAINT_PALETTE = [
-    { name: 'Isle of Man Green', hex: 0x0f6b4a, css: '#0f6b4a', metalness: 0.82, roughness: 0.16 },
-    { name: 'Marina Bay Blue', hex: 0x0b4fd6, css: '#0b4fd6', metalness: 0.85, roughness: 0.15 },
-    { name: 'Toronto Red Metallic', hex: 0xc81922, css: '#c81922', metalness: 0.78, roughness: 0.18 },
-    { name: 'Sao Paulo Yellow', hex: 0xd4e117, css: '#d4e117', metalness: 0.65, roughness: 0.2 },
-    { name: 'Frozen Deep Grey', hex: 0x262b33, css: '#262b33', metalness: 0.52, roughness: 0.36 },
-    { name: 'Alpine White / GTR Silver', hex: 0xe2e8f0, css: '#e2e8f0', metalness: 0.72, roughness: 0.18 },
-    { name: 'Twilight Purple', hex: 0x5b189a, css: '#5b189a', metalness: 0.82, roughness: 0.18 },
-    { name: 'Sunset Orange', hex: 0xe85d04, css: '#e85d04', metalness: 0.8, roughness: 0.18 }
+    { name: 'Alpine White (Sof Oq)', hex: 0xffffff, css: '#ffffff', metalness: 0.85, roughness: 0.12 },
+    { name: 'Black Sapphire (Qora Metallik)', hex: 0x05070a, css: '#05070a', metalness: 0.92, roughness: 0.14 },
+    { name: 'Marina Bay Blue (Ko‘k)', hex: 0x0055ff, css: '#0055ff', metalness: 0.88, roughness: 0.14 },
+    { name: 'Toronto Red Metallic (Qizil)', hex: 0xd90429, css: '#d90429', metalness: 0.82, roughness: 0.16 },
+    { name: 'Isle of Man Green (Yashil)', hex: 0x047857, css: '#047857', metalness: 0.84, roughness: 0.15 },
+    { name: 'Sao Paulo Yellow (Sariq)', hex: 0xeab308, css: '#eab308', metalness: 0.7, roughness: 0.18 },
+    { name: 'Frozen Deep Grey (Matte Kulrang)', hex: 0x1f242e, css: '#1f242e', metalness: 0.45, roughness: 0.42 },
+    { name: 'Twilight Purple (Binafsha)', hex: 0x7e22ce, css: '#7e22ce', metalness: 0.84, roughness: 0.16 },
+    { name: 'Sunset Orange (Olovrang)', hex: 0xea580c, css: '#ea580c', metalness: 0.82, roughness: 0.16 },
+    { name: 'Most Wanted GTR Silver (Kumush)', hex: 0xd1d5db, css: '#d1d5db', metalness: 0.92, roughness: 0.14 }
   ];
 
   const NEON_OPTIONS = [
@@ -500,8 +502,8 @@
   scene.background = new THREE.Color(WEATHER_PRESETS[0].sky);
   scene.fog = new THREE.FogExp2(WEATHER_PRESETS[0].fog, 0.0038);
 
-  const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.2, 520);
-  const cameraP2 = new THREE.PerspectiveCamera(62, (window.innerWidth * 0.5) / window.innerHeight, 0.2, 520);
+  const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.05, 520);
+  const cameraP2 = new THREE.PerspectiveCamera(62, (window.innerWidth * 0.5) / window.innerHeight, 0.05, 520);
 
   const ambientLight = new THREE.AmbientLight(WEATHER_PRESETS[0].ambient, 0.95);
   scene.add(ambientLight);
@@ -751,6 +753,40 @@
       const mirrorCap = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.1, 0.12), mainBodyMat);
       mirrorCap.position.set(side * (w * 0.52), h * 0.64, -l * 0.12);
       root.add(mirrorCap);
+    });
+
+    // 3b. High-Detail Cockpit Interior (Sport Bucket Seats & M Steering Wheel)
+    const seatMat = new THREE.MeshStandardMaterial({ color: 0x141820, roughness: 0.8, metalness: 0.1 });
+    [-0.32, 0.32].forEach((sx) => {
+      const headrest = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.22, 0.14), seatMat);
+      headrest.position.set(sx, h * 0.76, 0.14);
+      root.add(headrest);
+
+      const seatBack = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.42, 0.18), seatMat);
+      seatBack.position.set(sx, h * 0.52, 0.14);
+      root.add(seatBack);
+    });
+
+    const steerWheel = new THREE.Mesh(
+      new THREE.TorusGeometry(0.14, 0.024, 8, 16),
+      new THREE.MeshBasicMaterial({ color: 0x222630 })
+    );
+    steerWheel.position.set(-0.32, h * 0.58, -l * 0.06);
+    steerWheel.rotation.x = 0.35;
+    root.add(steerWheel);
+
+    // 3c. Aerodynamic Fender Gills (M-Side Breathers)
+    [-1, 1].forEach((side) => {
+      const gill = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.12, 0.28), carbonMat);
+      gill.position.set(side * (w * 0.495), 0.45, -l * 0.18);
+      root.add(gill);
+
+      const gillStripe = new THREE.Mesh(
+        new THREE.BoxGeometry(0.045, 0.03, 0.16),
+        new THREE.MeshBasicMaterial({ color: 0x0066b1 })
+      );
+      gillStripe.position.set(side * (w * 0.498), 0.45, -l * 0.18);
+      root.add(gillStripe);
     });
 
     // 4. Twin Kidney Grille + M-Stripes
@@ -1037,6 +1073,7 @@
   let stuntRamps = [];
   let driftParticles = [];
   let skidMarks = [];
+  let bonusPulses = [];
 
   const HIGHWAY_LANES = [-6.0, -2.0, 2.0, 6.0];
   const STADIUM_RADIUS_X = 110;
@@ -1053,6 +1090,7 @@
     stuntRamps = [];
     driftParticles = [];
     skidMarks = [];
+    bonusPulses = [];
   }
 
   function buildWorldForMode(mode) {
@@ -1321,11 +1359,11 @@
       for (let r = 0; r < 14; r++) {
         const angle = (r / 14) * Math.PI * 2;
         const dist = r % 2 === 0 ? 35 : 72;
-        const ring = createCheckpointGate(0xfbbf24);
-        ring.position.set(Math.cos(angle) * dist, 0, Math.sin(angle) * dist);
-        ring.rotation.y = -angle;
-        worldGroup.add(ring);
-        bonusRings.push(ring);
+        const bonus = createArenaBonus(0xfbbf24);
+        bonus.position.set(Math.cos(angle) * dist, 0, Math.sin(angle) * dist);
+        bonus.rotation.y = -angle;
+        worldGroup.add(bonus);
+        bonusRings.push(bonus);
       }
 
       for (let p = 0; p < 18; p++) {
@@ -1423,13 +1461,70 @@
 
   function createCheckpointGate(colorHex) {
     const gateGroup = new THREE.Group();
+    // High-clearance overhead portal arch (clearance height: 4.8m, width: 7.2m)
     const arch = new THREE.Mesh(
-      new THREE.TorusGeometry(2.8, 0.18, 12, 32, Math.PI),
+      new THREE.TorusGeometry(3.6, 0.14, 12, 32, Math.PI),
       new THREE.MeshBasicMaterial({ color: colorHex })
     );
-    arch.position.y = 0.2;
+    arch.position.y = 1.25;
     gateGroup.add(arch);
+
+    // Glowing Neon Side Pylons
+    [-3.6, 3.6].forEach((px) => {
+      const pylon = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.12, 0.16, 2.5, 12),
+        new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.8, roughness: 0.2 })
+      );
+      pylon.position.set(px, 1.25, 0);
+      gateGroup.add(pylon);
+
+      const beacon = new THREE.Mesh(
+        new THREE.SphereGeometry(0.24, 12, 12),
+        new THREE.MeshBasicMaterial({ color: colorHex })
+      );
+      beacon.position.set(px, 2.5, 0);
+      gateGroup.add(beacon);
+    });
+
     return gateGroup;
+  }
+
+  function createArenaBonus(colorHex) {
+    const group = new THREE.Group();
+    const diamond = new THREE.Mesh(
+      new THREE.OctahedronGeometry(1.1, 0),
+      new THREE.MeshStandardMaterial({
+        color: colorHex,
+        emissive: colorHex,
+        emissiveIntensity: 0.65,
+        metalness: 0.85,
+        roughness: 0.15
+      })
+    );
+    diamond.position.y = 1.7;
+    group.add(diamond);
+
+    const haloRing = new THREE.Mesh(
+      new THREE.RingGeometry(1.3, 1.55, 24),
+      new THREE.MeshBasicMaterial({ color: colorHex, side: THREE.DoubleSide })
+    );
+    haloRing.rotation.x = -Math.PI / 2;
+    haloRing.position.y = 0.04;
+    group.add(haloRing);
+
+    group.diamond = diamond;
+    return group;
+  }
+
+  function triggerBonusExplosion(pos, colorHex) {
+    const pulseGeo = new THREE.RingGeometry(0.5, 0.75, 24);
+    const pulseMat = new THREE.MeshBasicMaterial({ color: colorHex, side: THREE.DoubleSide, transparent: true, opacity: 0.9 });
+    const pulse = new THREE.Mesh(pulseGeo, pulseMat);
+    pulse.rotation.x = -Math.PI / 2;
+    pulse.position.copy(pos);
+    pulse.position.y = 1.5;
+    worldGroup.add(pulse);
+    bonusPulses.push({ mesh: pulse, life: 0.38 });
   }
 
   function spawnDriftEffects(carGroup, yawAngle) {
@@ -2300,6 +2395,7 @@
         gate.position.z += forwardStep;
         if (Math.abs(gate.position.z) < 2.8 && Math.abs(gate.position.x - state.carX) < 2.8) {
           sound.playEffect('bonus');
+          triggerBonusExplosion(gate.position, 0x38bdf8);
           state.nearMissCount++;
           state.nitroAmount = Math.min(100, state.nitroAmount + 40);
           if (state.selectedMode === 'timeattack') {
@@ -2415,13 +2511,15 @@
       }
 
       bonusRings.forEach((ring) => {
+        if (ring.diamond) ring.diamond.rotation.y += dt * 2.8;
         const dRing = Math.hypot(state.carX - ring.position.x, state.carZ - ring.position.z);
         if (dRing < 3.5) {
           sound.playEffect('bonus');
+          triggerBonusExplosion(ring.position, 0xfbbf24);
           state.score += 900;
           state.nitroAmount = Math.min(100, state.nitroAmount + 45);
           state.nearMissCount++;
-          showHudBanner('BONUS HALQASI!', '+900 BALL');
+          showHudBanner('BONUS OLINDI!', '+900 BALL');
           const newAngle = Math.random() * Math.PI * 2;
           const newRadius = 28 + Math.random() * 55;
           ring.position.set(Math.cos(newAngle) * newRadius, 0, Math.sin(newAngle) * newRadius);
@@ -2706,24 +2804,32 @@
     const totalShake = roadRumble + impactRumble;
 
     if (state.cameraIndex === 0) {
-      const dist = 6.3;
-      const height = 2.3;
+      // 0: Third-Person Chase Cam (Full View of Car, Spinning Wheels & Road Ahead)
+      const dist = 6.4;
+      const height = 2.4;
       const desiredX = px + Math.sin(yaw) * dist;
       const desiredZ = pz + Math.cos(yaw) * dist;
       cam.position.x += (desiredX - cam.position.x) * Math.min(1, dt * 11) + totalShake;
       cam.position.y += (py + height - cam.position.y) * Math.min(1, dt * 11) + totalShake;
       cam.position.z += (desiredZ - cam.position.z) * Math.min(1, dt * 11);
-      cam.lookAt(px - Math.sin(yaw) * 7, py + 0.85, pz - Math.cos(yaw) * 7);
+      cam.lookAt(px - Math.sin(yaw) * 7.5, py + 0.9, pz - Math.cos(yaw) * 7.5);
     } else if (state.cameraIndex === 1) {
-      const hoodX = px - Math.sin(yaw) * 0.45;
-      const hoodZ = pz - Math.cos(yaw) * 0.45;
-      cam.position.set(hoodX + totalShake, py + 1.18 + totalShake, hoodZ);
-      cam.lookAt(px - Math.sin(yaw) * 22, py + 0.95, pz - Math.cos(yaw) * 22);
+      // 1: Hood View: Positioned right on the power dome hood looking cleanly down the road with ZERO interior clipping
+      const hoodOffsetZ = 1.35;
+      const hoodX = px - Math.sin(yaw) * hoodOffsetZ;
+      const hoodZ = pz - Math.cos(yaw) * hoodOffsetZ;
+      cam.position.set(hoodX + totalShake, py + 1.05 + totalShake, hoodZ);
+      cam.lookAt(px - Math.sin(yaw) * 35, py + 0.85, pz - Math.cos(yaw) * 35);
     } else {
-      const dist = 10.8;
-      const height = 5.4;
-      cam.position.set(px + Math.sin(yaw) * dist, py + height, pz + Math.cos(yaw) * dist);
-      cam.lookAt(px - Math.sin(yaw) * 4, py + 0.5, pz - Math.cos(yaw) * 4);
+      // 2: Cinematic Top-Rear Helicopter Cam
+      const dist = 9.8;
+      const height = 4.6;
+      const desiredX = px + Math.sin(yaw) * dist;
+      const desiredZ = pz + Math.cos(yaw) * dist;
+      cam.position.x += (desiredX - cam.position.x) * Math.min(1, dt * 10) + totalShake;
+      cam.position.y += (py + height - cam.position.y) * Math.min(1, dt * 10) + totalShake;
+      cam.position.z += (desiredZ - cam.position.z) * Math.min(1, dt * 10);
+      cam.lookAt(px - Math.sin(yaw) * 8, py + 0.6, pz - Math.cos(yaw) * 8);
     }
   }
 
@@ -2734,6 +2840,18 @@
     requestAnimationFrame(animate);
     let dt = Math.min(0.05, (now - lastTime) / 1000);
     lastTime = now;
+
+    // Dissolve Bonus Pulses
+    for (let i = bonusPulses.length - 1; i >= 0; i--) {
+      const bp = bonusPulses[i];
+      bp.life -= dt;
+      bp.mesh.scale.multiplyScalar(1 + dt * 5);
+      bp.mesh.material.opacity = Math.max(0, bp.life * 2.5);
+      if (bp.life <= 0) {
+        worldGroup.remove(bp.mesh);
+        bonusPulses.splice(i, 1);
+      }
+    }
 
     if (state.slowMoActive && !state.inGarage && !state.isPaused) {
       dt *= 0.42;
