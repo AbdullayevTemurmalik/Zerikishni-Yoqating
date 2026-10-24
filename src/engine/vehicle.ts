@@ -61,3 +61,4 @@ export class VehicleDynamics {
     return Math.max(-0.68, Math.min(0.68, steerInput * 0.56 + rawCounter));
   }
 }
+

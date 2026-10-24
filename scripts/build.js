@@ -24,3 +24,4 @@ filesToSync.forEach((file) => {
 
 console.log('[PASS] Output directory "public" populated with static assets.');
 console.log('>>> BUILD COMPLETE: Ready for Vercel Deployment! <<<');
+
