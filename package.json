@@ -7,7 +7,7 @@
   "author": "Abdullayev Temurmalik",
   "license": "MIT",
   "scripts": {
-    "build": "python3 scripts/verify_build.py",
+    "build": "node scripts/build.js",
     "test": "python3 scripts/benchmark.py",
     "start": "npx serve ."
   },
@@ -15,4 +15,3 @@
     "typescript": "^5.0.0"
   }
 }
-

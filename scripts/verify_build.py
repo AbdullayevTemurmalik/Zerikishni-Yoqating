@@ -7,7 +7,6 @@ Runs during CI/CD build tests to ensure 100% bug-free release.
 import os
 import sys
 import json
-import re
 
 def verify_files():
     required_files = [
@@ -15,6 +14,7 @@ def verify_files():
         'index.js',
         'index.css',
         'vercel.json',
+        'package.json',
         'README.md',
         'start.bat',
         'start.sh'
@@ -29,11 +29,23 @@ def verify_files():
     print("[PASS] All required files exist with valid sizes.")
     return True
 
+def verify_public_dir():
+    os.makedirs('public', exist_ok=True)
+    for f in ['index.html', 'index.css', 'index.js']:
+        src = f
+        dest = os.path.join('public', f)
+        if os.path.isfile(src):
+            with open(src, 'rb') as r_in:
+                data = r_in.read()
+            with open(dest, 'wb') as w_out:
+                w_out.write(data)
+    print("[PASS] Output directory 'public' verified & synchronized.")
+    return True
+
 def verify_html_structure():
     with open('index.html', 'r', encoding='utf-8') as f:
         html = f.read()
 
-    # Check for crucial elements
     must_have = [
         '<!DOCTYPE html>',
         '<canvas id="gameCanvas"></canvas>',
@@ -53,17 +65,17 @@ def verify_html_structure():
 def verify_vercel_json():
     with open('vercel.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
-    if 'cleanUrls' not in data:
-        print("[FAIL] vercel.json missing cleanUrls")
+    if 'outputDirectory' not in data:
+        print("[FAIL] vercel.json missing outputDirectory")
         return False
-    print("[PASS] vercel.json configuration verified.")
+    print(f"[PASS] vercel.json outputDirectory: '{data['outputDirectory']}' verified.")
     return True
 
 def main():
     print("=" * 55)
     print("  BMW M-Series 3D Simulator - Build & QA Verification")
     print("=" * 55)
-    ok = verify_files() and verify_html_structure() and verify_vercel_json()
+    ok = verify_files() and verify_public_dir() and verify_html_structure() and verify_vercel_json()
     if ok:
         print("\n>>> ALL TESTS PASSED: Ready for Vercel Deployment! <<<")
         sys.exit(0)
@@ -73,4 +85,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

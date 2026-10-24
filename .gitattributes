@@ -1,0 +1,12 @@
+# GitHub Linguist Configuration
+public/* linguist-vendored
+*.min.js linguist-vendored
+
+# Ensure all primary languages are detected and balanced
+*.ts linguist-detectable=true
+*.scss linguist-detectable=true
+*.py linguist-detectable=true
+*.js linguist-detectable=true
+*.html linguist-detectable=true
+*.sh linguist-detectable=true
+*.bat linguist-detectable=true
