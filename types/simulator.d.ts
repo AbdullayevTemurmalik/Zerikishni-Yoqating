@@ -91,3 +91,4 @@ export interface SoundEngineInterface {
   playPop(): void;
   playEffect(type: 'bonus' | 'crash' | 'click'): void;
 }
+

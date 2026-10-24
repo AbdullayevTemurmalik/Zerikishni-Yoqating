@@ -33,3 +33,4 @@ export class PhysicsMath {
     return Math.floor(baseIdle + progress * (maxRpm - baseIdle));
   }
 }
+

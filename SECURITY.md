@@ -10,3 +10,4 @@
 - **Content Security:** Safe local storage serialization with strict validation wrappers.
 - **XSS Prevention:** Zero DOM evaluation (`no eval`, `no innerHTML` from unvalidated inputs).
 - **Vercel Security Headers:** Includes `X-Content-Type-Options: nosniff` and CORS policies configured in `vercel.json`.
+

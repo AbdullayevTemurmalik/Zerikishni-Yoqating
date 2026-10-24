@@ -11,3 +11,4 @@ echo "=== Git Status ==="
 git status --short
 
 echo "=== Ready! Deploy to Vercel via 'npx vercel' or git push ==="
+
